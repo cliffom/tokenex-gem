@@ -49,10 +49,7 @@ module Tokenex
 
         def send_request(action, data)
             request_body = build_request_array(data).to_json
-            headers = {
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
-            }
+            
             uri = URI.parse("#{@api_base_url}#{action}")
             http = Net::HTTP.new(uri.host, uri.port)
             http.use_ssl = true

@@ -20,7 +20,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Tokenization
+
+Let's start with a simple tokenization and detokenization of a credit card record:
+
+```ruby
+env = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+token = env.token_from_ccnum(4242424242424242)
+ccnum = env.ccnum_from_token(token["Token"])
+# ccnum["Value"] === "4242424242424242"
+```
 
 ## Development
 

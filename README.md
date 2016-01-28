@@ -1,4 +1,4 @@
-# Tokenex
+# Tokenex [![Build Status](https://travis-ci.org/cliffom/tokenex-gem.svg?branch=master)](https://travis-ci.org/cliffom/tokenex-gem)
 
 A convenient Ruby wrapper for the TokenEx API.
 

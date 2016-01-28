@@ -18,7 +18,10 @@ module Tokenex
                 "TokenScheme" => 3
             }
             
-            return send_request(action, data)
+            response = send_request(action, data)
+            throw :tokenex_invalid_ccnum unless is_valid_response(response)  
+ 
+            return response['Token']
         end
         
         def ccnum_from_token(token)
@@ -27,7 +30,10 @@ module Tokenex
                 "Token" => token
             }
             
-            return send_request(action, data)
+            response = send_request(action, data)
+            throw :tokenex_invalid_token unless is_valid_response(response) 
+            
+            return response['Value']
         end
         
         private
@@ -59,6 +65,10 @@ module Tokenex
             response = http.request(request)
             return JSON.parse(response.body)
         end
-
+        
+        def is_valid_response(response)
+            return !response['Success'].nil? && response['Success'] === true
+        end
+        
     end
 end

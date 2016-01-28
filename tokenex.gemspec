@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Provides a Ruby wrapper for the TokenEx API"
   spec.description   = "The TokenEx gem provides a convenient Ruby wrapper for the TokenEx API."
-  spec.homepage      = "https://github.com/cliffom/tokenex-gem"
+  spec.homepage      = "https://github.com/radpad/tokenex-gem"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or

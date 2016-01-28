@@ -25,10 +25,11 @@ Or install it yourself as:
 Let's start with a simple tokenization and detokenization of a credit card record:
 
 ```ruby
-env = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
-token = env.token_from_ccnum(4242424242424242)
-ccnum = env.ccnum_from_token(token)
-# ccnum === "4242424242424242"
+tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+token = tokenex.token_from_ccnum(4242424242424242)
+ccnum = tokenex.ccnum_from_token(token)
+is_valid_token = tokenex.validate_token(token)
+tokenex.delete_token(token)
 ```
 
 ## Development

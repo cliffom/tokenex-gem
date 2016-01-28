@@ -27,8 +27,12 @@ Let's start with a simple tokenization and detokenization of a credit card recor
 ```ruby
 tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.token_from_ccnum(4242424242424242)
-ccnum = tokenex.ccnum_from_token(token)
+ccnum = tokenex.detokenize(token)
 is_valid_token = tokenex.validate_token(token)
+tokenex.delete_token(token)
+arbitrary_data = "This is my string with 3 numbers less than 10"
+token = tokenex.tokenize(arbitrary_data)
+arbitrary_data = tokenex.detokenize(token)
 tokenex.delete_token(token)
 ```
 

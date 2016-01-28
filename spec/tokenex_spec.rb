@@ -71,4 +71,12 @@ describe Tokenex do
     expect(tokenex.validate_token(invalid_token)).to be false
     expect { tokenex.delete_token(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
   end
+  
+  it 'can tokenize arbitrary data' do
+    data = "This is my string with 3 numbers less than 10"
+    token = tokenex.tokenize(data, 4)
+    data_detokenized = tokenex.detokenize(token)
+    expect(tokenex.validate_token(token)).to be true
+    expect(data === data_detokenized).to be true
+  end
 end

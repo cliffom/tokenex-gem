@@ -12,15 +12,22 @@ module Tokenex
         end
         
         def token_from_ccnum(ccNum)
+            catch (:tokenex_cannot_tokenize_data) do
+                return tokenize(ccNum, 3)
+            end
+            throw :tokenex_invalid_ccnum
+        end
+        
+        def tokenize(data_to_tokenize, token_scheme = 4)
             action = "Tokenize"
             data = {
-                "Data" => ccNum,
-                "TokenScheme" => 3
+                "Data" => data_to_tokenize,
+                "TokenScheme" => token_scheme
             }
             
             response = send_request(action, data)
-            throw :tokenex_invalid_ccnum unless is_valid_response(response)  
- 
+            throw :tokenex_cannot_tokenize_data unless is_valid_response(response)
+            
             return response['Token']
         end
         

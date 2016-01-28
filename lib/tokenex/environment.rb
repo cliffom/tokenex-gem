@@ -24,7 +24,7 @@ module Tokenex
             return response['Token']
         end
         
-        def ccnum_from_token(token)
+        def detokenize(token)
             action = "Detokenize"
             data = {
                 "Token" => token
@@ -34,6 +34,30 @@ module Tokenex
             throw :tokenex_invalid_token unless is_valid_response(response) 
             
             return response['Value']
+        end
+        
+        def validate_token(token)
+            action = "ValidateToken"
+            data = {
+                "Token" => token
+            }
+            
+            response = send_request(action, data)
+            throw :tokenex_invalid_token unless is_valid_response(response) 
+            
+            return response['Valid']
+        end
+        
+        def delete_token(token)
+            action = "DeleteToken"
+            data = {
+                "Token" => token
+            }
+            
+            response = send_request(action, data)
+            throw :tokenex_invalid_token unless is_valid_response(response) 
+            
+            return response['Success']
         end
         
         private

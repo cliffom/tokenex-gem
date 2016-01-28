@@ -25,7 +25,7 @@ describe Tokenex do
   end
   
   def ccnum
-    tokenex.ccnum_from_token(token)
+    tokenex.detokenize(token)
   end
 
   it 'has a version number' do
@@ -49,6 +49,26 @@ describe Tokenex do
   end
   
   it 'handles bad tokens' do
-    expect { tokenex.ccnum_from_token(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
+    expect { tokenex.detokenize(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
+  end
+  
+  it 'can verify a token exists' do
+    expect(tokenex.validate_token(token)).to be true
+  end
+  
+  it 'can verify a token does not exist' do
+    expect(tokenex.validate_token(invalid_token)).to be false
+  end
+  
+  it 'can delete a token' do
+    token_to_delete = token 
+    expect(tokenex.validate_token(token_to_delete)).to be true
+    expect(tokenex.delete_token(token)).to be true
+    expect(tokenex.validate_token(token_to_delete)).to be false
+  end
+  
+  it 'will not delete a token that does not exist' do
+    expect(tokenex.validate_token(invalid_token)).to be false
+    expect { tokenex.delete_token(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
   end
 end

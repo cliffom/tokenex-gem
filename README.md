@@ -22,35 +22,38 @@ Or install it yourself as:
 
 ### Tokenization
 
-#### Tokenize a credit card number
+#### Initialize your TokenEx object
+
+The examples below require you first instantiate a new TokenEx object
+
 ```ruby
 tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+```
+
+#### Tokenize a credit card number
+```ruby
 token = tokenex.token_from_ccnum(4242424242424242)
 ```
 
 #### Tokenize arbitrary data
 ```ruby
-tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.tokenize("This is random data containing 3 numbers less than 10")
 ```
 
 #### Detokenize a token
 ```ruby
-tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.token_from_ccnum(4242424242424242)
 data = tokenex.detokenize(token)
 ```
 
 #### Validate a token
 ```ruby
-tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.token_from_ccnum(4242424242424242)
 token_is_valid = tokenex.validate_token(token)
 ```
 
 #### Delete a token
 ```ruby
-tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.token_from_ccnum(4242424242424242)
 tokenex.delete_token(token)
 ```

@@ -103,6 +103,7 @@ module Tokenex
             uri = URI.parse("#{@api_base_url}#{action}")
             http = Net::HTTP.new(uri.host, uri.port)
             http.use_ssl = true
+            http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
             request = Net::HTTP::Post.new(uri, initheader = headers)
             request.body = request_body

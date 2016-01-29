@@ -22,17 +22,36 @@ Or install it yourself as:
 
 ### Tokenization
 
-Let's start with a simple tokenization and detokenization of a credit card record:
-
+#### Tokenize a credit card number
 ```ruby
 tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.token_from_ccnum(4242424242424242)
-ccnum = tokenex.detokenize(token)
-is_valid_token = tokenex.validate_token(token)
-tokenex.delete_token(token)
-arbitrary_data = "This is my string with 3 numbers less than 10"
+```
+
+#### Tokenize arbitrary data
+```ruby
+arbitrary_data = "This is random data containing 3 numbers less than 10"
+tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 token = tokenex.tokenize(arbitrary_data)
-arbitrary_data = tokenex.detokenize(token)
+```
+
+#### Detokenize a token
+```ruby
+tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+data = tokenex.detokenize(token)
+```
+
+#### Validate a token
+```ruby
+tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+token = tokenex.token_from_ccnum(4242424242424242)
+token_is_valid = tokenex.validate_token(token)
+```
+
+#### Delete a token
+```ruby
+tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+token = tokenex.token_from_ccnum(4242424242424242)
 tokenex.delete_token(token)
 ```
 
@@ -50,4 +69,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/radpad
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

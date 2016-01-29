@@ -30,9 +30,8 @@ token = tokenex.token_from_ccnum(4242424242424242)
 
 #### Tokenize arbitrary data
 ```ruby
-arbitrary_data = "This is random data containing 3 numbers less than 10"
 tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
-token = tokenex.tokenize(arbitrary_data)
+token = tokenex.tokenize("This is random data containing 3 numbers less than 10")
 ```
 
 #### Detokenize a token

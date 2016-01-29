@@ -11,14 +11,14 @@ module Tokenex
             @api_key = api_key
         end
 
-        def token_from_ccnum(ccnum, token_scheme = 3)
+        def token_from_ccnum(ccnum, token_scheme = TOKEN_SCHEME[:TOKENfour])
             catch (:tokenex_cannot_tokenize_data) do
                 return tokenize(ccnum, token_scheme)
             end
             throw :tokenex_invalid_ccnum
         end
 
-        def tokenize(data, token_scheme = 4)
+        def tokenize(data, token_scheme = TOKEN_SCHEME[:GUID])
             action = "Tokenize"
             request_parameters = {
                 "Data" => data,

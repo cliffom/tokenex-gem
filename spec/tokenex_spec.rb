@@ -32,6 +32,10 @@ describe Tokenex do
     expect(Tokenex::VERSION).not_to be nil
   end
 
+  it 'has token schemes' do
+    expect(Tokenex::TOKEN_SCHEME).not_to be nil
+  end
+
   it 'tokenizes a credit card' do
     expect(token).not_to be nil
   end
@@ -74,7 +78,7 @@ describe Tokenex do
 
   it 'can tokenize arbitrary data' do
     data = "This is my string with 3 numbers less than 10"
-    token = tokenex.tokenize(data, 4)
+    token = tokenex.tokenize(data, Tokenex::TOKEN_SCHEME[:GUID])
     expect(tokenex.validate_token(token)).to be true
     data_detokenized = tokenex.detokenize(token)
     expect(data_detokenized).to eq(data)
@@ -83,7 +87,7 @@ describe Tokenex do
 
   it 'can tokenize from an encrypted value' do
       encrypted_value = "FWOd2HUAI+AYfaC3PKAz4dugByBdd+fEAzFfg/G41UuM8yFK23qoq8oD6CURF5WZpXPXySYbN8XvRM6Pd8dfQCTcSQdGiSBfD+Csv39XbOS/laAIekYsPav/eAnY+tNAV7sGUvtqOnDDr0H9W6Q8Z6nqL0rdezCIDY7DuNcOUZxPsv4EV2djG75c9oXI7rPUa/CtIxp1GOCkPYhkV4pv6sxoYOBAJ2KrMDgzlZS9UWQE5x346Jc8ixEOA0bWItTcXUW8/hITYAlM1mTKqRX/Er7Mag2uBrpNM/t5HNtw/zVNgwc8S4ltvm7ow3IG98K2cDpEi16ly2QuMiL5Iq8ghw=="
-      token = tokenex.tokenize_from_encrypted_value(encrypted_value, 1);
+      token = tokenex.tokenize_from_encrypted_value(encrypted_value, Tokenex::TOKEN_SCHEME[:sixTokenfour]);
       expect(tokenex.validate_token(token)).to be true
       data_from_token = tokenex.detokenize(token)
       expect(data_from_token).to eq(valid_ccnum.to_s)

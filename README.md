@@ -38,6 +38,7 @@ token = tokenex.tokenize(arbitrary_data)
 #### Detokenize a token
 ```ruby
 tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
+token = tokenex.token_from_ccnum(4242424242424242)
 data = tokenex.detokenize(token)
 ```
 

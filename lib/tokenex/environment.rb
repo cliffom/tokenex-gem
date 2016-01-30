@@ -112,7 +112,7 @@ module Tokenex
         end
 
         def is_valid_response(response)
-            !response['Success'].nil? && response['Success'] === true
+            !response['Success'].nil? && response['Success'] == true
         end
 
     end

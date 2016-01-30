@@ -28,7 +28,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_cannot_tokenize_data unless is_valid_response(response)
 
-            return response['Token']
+            response['Token']
         end
 
         def tokenize_from_encrypted_value(encrypted_data, token_scheme)
@@ -41,7 +41,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_cannot_tokenize_from_encrypted_value unless is_valid_response(response)
 
-            return response['Token']
+            response['Token']
         end
 
         def detokenize(token)
@@ -53,7 +53,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_invalid_token unless is_valid_response(response)
 
-            return response['Value']
+            response['Value']
         end
 
         def validate_token(token)
@@ -65,7 +65,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_invalid_token unless is_valid_response(response)
 
-            return response['Valid']
+            response['Valid']
         end
 
         def delete_token(token)
@@ -77,7 +77,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_invalid_token unless is_valid_response(response)
 
-            return response['Success']
+            response['Success']
         end
 
         private
@@ -94,7 +94,7 @@ module Tokenex
                 "TokenExID" => @tokenex_id
             }.merge(data)
 
-            return request_array
+            request_array
         end
 
         def send_request(action, data)
@@ -108,11 +108,11 @@ module Tokenex
             request = Net::HTTP::Post.new(uri, initheader = headers)
             request.body = request_body
             response = http.request(request)
-            return JSON.parse(response.body)
+            JSON.parse(response.body)
         end
 
         def is_valid_response(response)
-            return !response['Success'].nil? && response['Success'] === true
+            !response['Success'].nil? && response['Success'] == true
         end
 
     end

@@ -40,6 +40,14 @@ describe Tokenex do
     expect(Tokenex::TOKEN_SCHEME).not_to be nil
   end
 
+  it 'has correct action mappings' do
+      expect(Tokenex::TOKEN_ACTION[:Tokenize]).to eq('Tokenize')
+      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue]).to eq('TokenizeFromEncryptedValue')
+      expect(Tokenex::TOKEN_ACTION[:ValidateToken]).to eq('ValidateToken')
+      expect(Tokenex::TOKEN_ACTION[:Detokenize]).to eq('Detokenize')
+      expect(Tokenex::TOKEN_ACTION[:DeleteToken]).to eq('DeleteToken')
+  end
+
   it 'tokenizes a credit card' do
     expect(token).not_to be nil
   end

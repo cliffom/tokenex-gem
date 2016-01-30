@@ -41,11 +41,20 @@ describe Tokenex do
   end
 
   it 'has correct action mappings' do
-      expect(Tokenex::TOKEN_ACTION[:Tokenize]).to eq('Tokenize')
-      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue]).to eq('TokenizeFromEncryptedValue')
-      expect(Tokenex::TOKEN_ACTION[:ValidateToken]).to eq('ValidateToken')
-      expect(Tokenex::TOKEN_ACTION[:Detokenize]).to eq('Detokenize')
-      expect(Tokenex::TOKEN_ACTION[:DeleteToken]).to eq('DeleteToken')
+      expect(Tokenex::TOKEN_ACTION[:Tokenize][:Name]).to eq('Tokenize')
+      expect(Tokenex::TOKEN_ACTION[:Tokenize][:Key]).to eq('Token')
+
+      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue][:Name]).to eq('TokenizeFromEncryptedValue')
+      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue][:Key]).to eq('Token')
+
+      expect(Tokenex::TOKEN_ACTION[:ValidateToken][:Name]).to eq('ValidateToken')
+      expect(Tokenex::TOKEN_ACTION[:ValidateToken][:Key]).to eq('Valid')
+
+      expect(Tokenex::TOKEN_ACTION[:Detokenize][:Name]).to eq('Detokenize')
+      expect(Tokenex::TOKEN_ACTION[:Detokenize][:Key]).to eq('Value')
+
+      expect(Tokenex::TOKEN_ACTION[:DeleteToken][:Name]).to eq('DeleteToken')
+      expect(Tokenex::TOKEN_ACTION[:DeleteToken][:Key]).to eq('Success')
   end
 
   it 'tokenizes a credit card' do

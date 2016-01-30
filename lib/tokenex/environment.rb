@@ -28,7 +28,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_cannot_tokenize_data unless is_valid_response(response)
 
-            response['Token']
+            response[action[:Key]]
         end
 
         def tokenize_from_encrypted_value(encrypted_data, token_scheme)
@@ -41,7 +41,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_cannot_tokenize_from_encrypted_value unless is_valid_response(response)
 
-            response['Token']
+            response[action[:Key]]
         end
 
         def detokenize(token)
@@ -53,7 +53,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_invalid_token unless is_valid_response(response)
 
-            response['Value']
+            response[action[:Key]]
         end
 
         def validate_token(token)
@@ -65,7 +65,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_invalid_token unless is_valid_response(response)
 
-            response['Valid']
+            response[action[:Key]]
         end
 
         def delete_token(token)
@@ -77,7 +77,7 @@ module Tokenex
             response = send_request(action, request_parameters)
             throw :tokenex_invalid_token unless is_valid_response(response)
 
-            response['Success']
+            response[action[:Key]]
         end
 
         private
@@ -96,7 +96,7 @@ module Tokenex
         end
 
         def send_request(action, data)
-            uri = URI.parse("#{@api_base_url}#{action}")
+            uri = URI.parse("#{@api_base_url}#{action[:Name]}")
             http = Net::HTTP.new(uri.host, uri.port)
             http.use_ssl = true
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER

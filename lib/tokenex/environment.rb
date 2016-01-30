@@ -19,7 +19,7 @@ module Tokenex
         end
 
         def tokenize(data, token_scheme = TOKEN_SCHEME[:GUID])
-            action = "Tokenize"
+            action = TOKEN_ACTION[:Tokenize]
             request_parameters = {
                 "Data" => data,
                 "TokenScheme" => token_scheme
@@ -32,7 +32,7 @@ module Tokenex
         end
 
         def tokenize_from_encrypted_value(encrypted_data, token_scheme)
-            action = "TokenizeFromEncryptedValue"
+            action = TOKEN_ACTION[:TokenizeFromEncryptedValue]
             request_parameters = {
                 "EcryptedData" => encrypted_data,
                 "TokenScheme" => token_scheme
@@ -45,7 +45,7 @@ module Tokenex
         end
 
         def detokenize(token)
-            action = "Detokenize"
+            action = TOKEN_ACTION[:Detokenize]
             request_parameters = {
                 "Token" => token
             }
@@ -57,7 +57,7 @@ module Tokenex
         end
 
         def validate_token(token)
-            action = "ValidateToken"
+            action = TOKEN_ACTION[:ValidateToken]
             request_parameters = {
                 "Token" => token
             }
@@ -69,7 +69,7 @@ module Tokenex
         end
 
         def delete_token(token)
-            action = "DeleteToken"
+            action = TOKEN_ACTION[:DeleteToken]
             request_parameters = {
                 "Token" => token
             }
@@ -88,25 +88,21 @@ module Tokenex
             }
         end
 
-        def build_request_array(data)
-            request_array = {
+        def request(data)
+            {
                 "APIKey" => @api_key,
                 "TokenExID" => @tokenex_id
             }.merge(data)
-
-            request_array
         end
 
         def send_request(action, data)
-            request_body = build_request_array(data).to_json
-
             uri = URI.parse("#{@api_base_url}#{action}")
             http = Net::HTTP.new(uri.host, uri.port)
             http.use_ssl = true
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
             request = Net::HTTP::Post.new(uri, initheader = headers)
-            request.body = request_body
+            request.body = request(data).to_json
             response = http.request(request)
             JSON.parse(response.body)
         end

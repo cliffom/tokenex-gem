@@ -32,6 +32,10 @@ describe Tokenex do
     expect(Tokenex::VERSION).not_to be nil
   end
 
+  it 'has token actions' do
+      expect(Tokenex::TOKEN_ACTION).not_to be nil
+  end
+
   it 'has token schemes' do
     expect(Tokenex::TOKEN_SCHEME).not_to be nil
   end

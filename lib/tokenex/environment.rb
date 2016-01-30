@@ -13,7 +13,7 @@ module Tokenex
 
         def token_from_ccnum(ccnum, token_scheme = TOKEN_SCHEME[:TOKENfour])
             catch (:tokenex_cannot_tokenize_data) do
-                tokenize(ccnum, token_scheme)
+                return tokenize(ccnum, token_scheme)
             end
             throw :tokenex_invalid_ccnum
         end

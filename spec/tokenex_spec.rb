@@ -41,11 +41,36 @@ describe Tokenex do
   end
 
   it 'has correct action mappings' do
-      expect(Tokenex::TOKEN_ACTION[:Tokenize]).to eq('Tokenize')
-      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue]).to eq('TokenizeFromEncryptedValue')
-      expect(Tokenex::TOKEN_ACTION[:ValidateToken]).to eq('ValidateToken')
-      expect(Tokenex::TOKEN_ACTION[:Detokenize]).to eq('Detokenize')
-      expect(Tokenex::TOKEN_ACTION[:DeleteToken]).to eq('DeleteToken')
+      expect(Tokenex::TOKEN_ACTION[:Tokenize][:Name]).to eq('Tokenize')
+      expect(Tokenex::TOKEN_ACTION[:Tokenize][:Key]).to eq('Token')
+
+      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue][:Name]).to eq('TokenizeFromEncryptedValue')
+      expect(Tokenex::TOKEN_ACTION[:TokenizeFromEncryptedValue][:Key]).to eq('Token')
+
+      expect(Tokenex::TOKEN_ACTION[:ValidateToken][:Name]).to eq('ValidateToken')
+      expect(Tokenex::TOKEN_ACTION[:ValidateToken][:Key]).to eq('Valid')
+
+      expect(Tokenex::TOKEN_ACTION[:Detokenize][:Name]).to eq('Detokenize')
+      expect(Tokenex::TOKEN_ACTION[:Detokenize][:Key]).to eq('Value')
+
+      expect(Tokenex::TOKEN_ACTION[:DeleteToken][:Name]).to eq('DeleteToken')
+      expect(Tokenex::TOKEN_ACTION[:DeleteToken][:Key]).to eq('Success')
+  end
+
+  it 'has correct params' do
+      expect(Tokenex::REQUEST_PARAMS[:APIKey]).to eq('APIKey')
+      expect(Tokenex::REQUEST_PARAMS[:Data]).to eq('Data')
+      expect(Tokenex::REQUEST_PARAMS[:EncryptedData]).to eq('EcryptedData')
+      expect(Tokenex::REQUEST_PARAMS[:Token]).to eq('Token')
+      expect(Tokenex::REQUEST_PARAMS[:TokenExID]).to eq('TokenExID')
+      expect(Tokenex::REQUEST_PARAMS[:TokenScheme]).to eq('TokenScheme')
+
+      expect(Tokenex::RESPONSE_PARAMS[:Token]).to eq('Token')
+      expect(Tokenex::RESPONSE_PARAMS[:Success]).to eq('Success')
+      expect(Tokenex::RESPONSE_PARAMS[:ReferenceNumber]).to eq('ReferenceNumber')
+      expect(Tokenex::RESPONSE_PARAMS[:Error]).to eq('Error')
+      expect(Tokenex::RESPONSE_PARAMS[:Valid]).to eq('Valid')
+      expect(Tokenex::RESPONSE_PARAMS[:Value]).to eq('Value')
   end
 
   it 'tokenizes a credit card' do

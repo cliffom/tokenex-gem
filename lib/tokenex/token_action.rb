@@ -1,5 +1,4 @@
 module Tokenex
-  # http://docs.tokenex.com/#appendix-token-schemes
   TOKEN_ACTION = {
     Tokenize: {
         Name: 'Tokenize',

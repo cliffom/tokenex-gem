@@ -57,6 +57,22 @@ describe Tokenex do
       expect(Tokenex::TOKEN_ACTION[:DeleteToken][:Key]).to eq('Success')
   end
 
+  it 'has correct params' do
+      expect(Tokenex::REQUEST_PARAMS[:APIKey]).to eq('APIKey')
+      expect(Tokenex::REQUEST_PARAMS[:Data]).to eq('Data')
+      expect(Tokenex::REQUEST_PARAMS[:EncryptedData]).to eq('EcryptedData')
+      expect(Tokenex::REQUEST_PARAMS[:Token]).to eq('Token')
+      expect(Tokenex::REQUEST_PARAMS[:TokenExID]).to eq('TokenExID')
+      expect(Tokenex::REQUEST_PARAMS[:TokenScheme]).to eq('TokenScheme')
+
+      expect(Tokenex::RESPONSE_PARAMS[:Token]).to eq('Token')
+      expect(Tokenex::RESPONSE_PARAMS[:Success]).to eq('Success')
+      expect(Tokenex::RESPONSE_PARAMS[:ReferenceNumber]).to eq('ReferenceNumber')
+      expect(Tokenex::RESPONSE_PARAMS[:Error]).to eq('Error')
+      expect(Tokenex::RESPONSE_PARAMS[:Valid]).to eq('Valid')
+      expect(Tokenex::RESPONSE_PARAMS[:Value]).to eq('Value')
+  end
+
   it 'tokenizes a credit card' do
     expect(token).not_to be nil
   end

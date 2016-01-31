@@ -21,8 +21,8 @@ module Tokenex
         def tokenize(data, token_scheme = TOKEN_SCHEME[:GUID])
             action = TOKEN_ACTION[:Tokenize]
             request_parameters = {
-                "Data" => data,
-                "TokenScheme" => token_scheme
+                REQUEST_PARAMS[:Data] => data,
+                REQUEST_PARAMS[:TokenScheme] => token_scheme
             }
 
             catch (:tokenex_invalid_response) do
@@ -34,8 +34,8 @@ module Tokenex
         def tokenize_from_encrypted_value(encrypted_data, token_scheme)
             action = TOKEN_ACTION[:TokenizeFromEncryptedValue]
             request_parameters = {
-                "EcryptedData" => encrypted_data,
-                "TokenScheme" => token_scheme
+                REQUEST_PARAMS[:EncryptedData] => encrypted_data,
+                REQUEST_PARAMS[:TokenScheme] => token_scheme
             }
 
             catch (:tokenex_invalid_response) do
@@ -47,7 +47,7 @@ module Tokenex
         def detokenize(token)
             action = TOKEN_ACTION[:Detokenize]
             request_parameters = {
-                "Token" => token
+                REQUEST_PARAMS[:Token] => token
             }
 
             catch (:tokenex_invalid_response) do
@@ -59,7 +59,7 @@ module Tokenex
         def validate_token(token)
             action = TOKEN_ACTION[:ValidateToken]
             request_parameters = {
-                "Token" => token
+                REQUEST_PARAMS[:Token] => token
             }
 
             catch (:tokenex_invalid_response) do
@@ -71,7 +71,7 @@ module Tokenex
         def delete_token(token)
             action = TOKEN_ACTION[:DeleteToken]
             request_parameters = {
-                "Token" => token
+                REQUEST_PARAMS[:Token] => token
             }
 
             catch (:tokenex_invalid_response) do
@@ -90,8 +90,8 @@ module Tokenex
 
         def request(data)
             {
-                "APIKey" => @api_key,
-                "TokenExID" => @tokenex_id
+                REQUEST_PARAMS[:APIKey] => @api_key,
+                REQUEST_PARAMS[:TokenExID] => @tokenex_id
             }.merge(data)
         end
 
@@ -111,7 +111,7 @@ module Tokenex
         end
 
         def is_valid_response(response)
-            !response['Success'].nil? && response['Success'] == true
+            !response[RESPONSE_PARAMS[:Success]].nil? && response[RESPONSE_PARAMS[:Success]] == true
         end
 
     end

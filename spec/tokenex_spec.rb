@@ -20,12 +20,14 @@ describe Tokenex do
     'abcdefg'
   end
 
-  def token
-    tokenex.token_from_ccnum(valid_ccnum)
+  def valid_success_response(tokenizer)
+    expect(tokenizer.error).to be nil
+    expect(tokenizer.reference_number).not_to be nil
   end
 
-  def ccnum
-    tokenex.detokenize(token)
+  def valid_error_response(tokenizer)
+    expect(tokenizer.error).not_to be nil
+    expect(tokenizer.reference_number).not_to be nil
   end
 
   it 'has a version number' do
@@ -73,62 +75,84 @@ describe Tokenex do
       expect(Tokenex::RESPONSE_PARAMS[:Value]).to eq('Value')
   end
 
-  it 'tokenizes a credit card' do
-    expect(token).not_to be nil
-  end
+  it 'tokenizes a valid credit card' do
+    tokenizer = tokenex
+    token = tokenizer.tokenize(valid_ccnum)
+    valid_success_response(tokenizer)
 
-  it 'detokenizes a credit card' do
-    expect(ccnum).not_to be nil
-  end
+    ccnum = tokenizer.detokenize(token)
+    expect(ccnum).to eq(valid_ccnum.to_s)
+    valid_success_response(tokenizer)
 
-  it 'returns valid data' do
-    expect(valid_ccnum === ccnum.to_i).to be true
+    expect(tokenizer.delete_token(token)).to be true
+    valid_success_response(tokenizer)
   end
 
   it 'handles bad credit cards' do
-    expect { tokenex.token_from_ccnum(invalid_ccnum) }.to throw_symbol(:tokenex_invalid_ccnum)
+    tokenizer = tokenex
+    expect { tokenizer.token_from_ccnum(invalid_ccnum) }.to throw_symbol(:tokenex_invalid_ccnum)
+    valid_error_response(tokenizer)
   end
 
   it 'handles bad tokens' do
-    expect { tokenex.detokenize(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
+    tokenizer = tokenex
+    expect { tokenizer.detokenize(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
+    valid_error_response(tokenizer)
   end
 
   it 'can verify a token exists' do
-    expect(tokenex.validate_token(token)).to be true
+    tokenizer = tokenex
+    token = tokenizer.token_from_ccnum(valid_ccnum)
+    expect(tokenizer.validate_token(token)).to be true
+    valid_success_response(tokenizer)
+    tokenizer.delete_token(token)
   end
 
   it 'can verify a token does not exist' do
-    expect(tokenex.validate_token(invalid_token)).to be false
+    tokenizer = tokenex
+    expect(tokenizer.validate_token(invalid_token)).to be false
+    valid_success_response(tokenizer)
   end
 
   it 'can delete a token' do
-    token_to_delete = token
-    expect(tokenex.validate_token(token_to_delete)).to be true
-    expect(tokenex.delete_token(token)).to be true
-    expect(tokenex.validate_token(token_to_delete)).to be false
+    tokenizer = tokenex
+    token = tokenizer.token_from_ccnum(valid_ccnum)
+    expect(tokenizer.validate_token(token)).to be true
+    expect(tokenizer.delete_token(token)).to be true
+    expect(tokenizer.validate_token(token)).to be false
+    valid_success_response(tokenizer)
   end
 
   it 'will not delete a token that does not exist' do
-    expect(tokenex.validate_token(invalid_token)).to be false
-    expect { tokenex.delete_token(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
+    tokenizer = tokenex
+    expect(tokenizer.validate_token(invalid_token)).to be false
+    expect { tokenizer.delete_token(invalid_token) }.to throw_symbol(:tokenex_invalid_token)
+    valid_error_response(tokenizer)
   end
 
   it 'can tokenize arbitrary data' do
+    tokenizer = tokenex
     data = "This is my string with 3 numbers less than 10"
-    token = tokenex.tokenize(data, Tokenex::TOKEN_SCHEME[:GUID])
-    expect(tokenex.validate_token(token)).to be true
-    data_detokenized = tokenex.detokenize(token)
+    token = tokenizer.tokenize(data, Tokenex::TOKEN_SCHEME[:GUID])
+    expect(tokenizer.validate_token(token)).to be true
+    data_detokenized = tokenizer.detokenize(token)
     expect(data_detokenized).to eq(data)
-
+    valid_success_response(tokenizer)
   end
 
   it 'can tokenize from an encrypted value' do
-      encrypted_value = "FWOd2HUAI+AYfaC3PKAz4dugByBdd+fEAzFfg/G41UuM8yFK23qoq8oD6CURF5WZpXPXySYbN8XvRM6Pd8dfQCTcSQdGiSBfD+Csv39XbOS/laAIekYsPav/eAnY+tNAV7sGUvtqOnDDr0H9W6Q8Z6nqL0rdezCIDY7DuNcOUZxPsv4EV2djG75c9oXI7rPUa/CtIxp1GOCkPYhkV4pv6sxoYOBAJ2KrMDgzlZS9UWQE5x346Jc8ixEOA0bWItTcXUW8/hITYAlM1mTKqRX/Er7Mag2uBrpNM/t5HNtw/zVNgwc8S4ltvm7ow3IG98K2cDpEi16ly2QuMiL5Iq8ghw=="
-      token = tokenex.tokenize_from_encrypted_value(encrypted_value, Tokenex::TOKEN_SCHEME[:sixTokenfour]);
-      expect(tokenex.validate_token(token)).to be true
-      data_from_token = tokenex.detokenize(token)
-      expect(data_from_token).to eq(valid_ccnum.to_s)
-      expect(tokenex.delete_token(token)).to be true
+    tokenizer = tokenex
+    encrypted_value = "FWOd2HUAI+AYfaC3PKAz4dugByBdd+fEAzFfg/G41UuM8yFK23qoq8oD6CURF5WZpXPXySYbN8XvRM6Pd8dfQCTcSQdGiSBfD+Csv39XbOS/laAIekYsPav/eAnY+tNAV7sGUvtqOnDDr0H9W6Q8Z6nqL0rdezCIDY7DuNcOUZxPsv4EV2djG75c9oXI7rPUa/CtIxp1GOCkPYhkV4pv6sxoYOBAJ2KrMDgzlZS9UWQE5x346Jc8ixEOA0bWItTcXUW8/hITYAlM1mTKqRX/Er7Mag2uBrpNM/t5HNtw/zVNgwc8S4ltvm7ow3IG98K2cDpEi16ly2QuMiL5Iq8ghw=="
+    token = tokenizer.tokenize_from_encrypted_value(encrypted_value, Tokenex::TOKEN_SCHEME[:sixTokenfour]);
+    expect(tokenizer.validate_token(token)).to be true
+    valid_success_response(tokenizer)
+
+    data_from_token = tokenizer.detokenize(token)
+    expect(data_from_token).to eq(valid_ccnum.to_s)
+    valid_success_response(tokenizer)
+
+    expect(tokenizer.delete_token(token)).to be true
+    valid_success_response(tokenizer)
   end
 
 end

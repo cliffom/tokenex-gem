@@ -4,6 +4,7 @@ require "uri"
 
 module Tokenex
     class Environment
+        attr_reader :error, :reference_number
 
         def initialize(api_base_url, tokenex_id, api_key, options={})
             @api_base_url = api_base_url
@@ -19,63 +20,58 @@ module Tokenex
         end
 
         def tokenize(data, token_scheme = TOKEN_SCHEME[:GUID])
-            action = TOKEN_ACTION[:Tokenize]
             request_parameters = {
                 REQUEST_PARAMS[:Data] => data,
                 REQUEST_PARAMS[:TokenScheme] => token_scheme
             }
 
             catch (:tokenex_invalid_response) do
-                return send_request(action, request_parameters)
+                return send_request(TOKEN_ACTION[:Tokenize], request_parameters)
             end
             throw :tokenex_cannot_tokenize_data
         end
 
         def tokenize_from_encrypted_value(encrypted_data, token_scheme)
-            action = TOKEN_ACTION[:TokenizeFromEncryptedValue]
             request_parameters = {
                 REQUEST_PARAMS[:EncryptedData] => encrypted_data,
                 REQUEST_PARAMS[:TokenScheme] => token_scheme
             }
 
             catch (:tokenex_invalid_response) do
-                return send_request(action, request_parameters)
+                return send_request(TOKEN_ACTION[:TokenizeFromEncryptedValue], request_parameters)
             end
             throw :tokenex_cannot_tokenize_from_encrypted_value
         end
 
         def detokenize(token)
-            action = TOKEN_ACTION[:Detokenize]
             request_parameters = {
                 REQUEST_PARAMS[:Token] => token
             }
 
             catch (:tokenex_invalid_response) do
-                return send_request(action, request_parameters)
+                return send_request(TOKEN_ACTION[:Detokenize], request_parameters)
             end
             throw :tokenex_invalid_token
         end
 
         def validate_token(token)
-            action = TOKEN_ACTION[:ValidateToken]
             request_parameters = {
                 REQUEST_PARAMS[:Token] => token
             }
 
             catch (:tokenex_invalid_response) do
-                return send_request(action, request_parameters)
+                return send_request(TOKEN_ACTION[:ValidateToken], request_parameters)
             end
             throw :tokenex_invalid_token
         end
 
         def delete_token(token)
-            action = TOKEN_ACTION[:DeleteToken]
             request_parameters = {
                 REQUEST_PARAMS[:Token] => token
             }
 
             catch (:tokenex_invalid_response) do
-                return send_request(action, request_parameters)
+                return send_request(TOKEN_ACTION[:DeleteToken], request_parameters)
             end
             throw :tokenex_invalid_token
         end
@@ -111,6 +107,8 @@ module Tokenex
         end
 
         def is_valid_response(response)
+            @error = response[RESPONSE_PARAMS[:Error]].empty? ? nil : response[RESPONSE_PARAMS[:Error]]
+            @reference_number = response[RESPONSE_PARAMS[:ReferenceNumber]].empty? ? nil : response[RESPONSE_PARAMS[:ReferenceNumber]]
             !response[RESPONSE_PARAMS[:Success]].nil? && response[RESPONSE_PARAMS[:Success]] == true
         end
 

@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Tokenex do
   def tokenex
-    api_base_url = ENV["TOKENEX_API_BASE_URL"]
-    token_ex_id = ENV["TOKENEX_ID"]
-    api_key = ENV["TOKENEX_API_KEY"]
+    api_base_url = ENV['TOKENEX_API_BASE_URL']
+    token_ex_id = ENV['TOKENEX_ID']
+    api_key = ENV['TOKENEX_API_KEY']
     Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
   end
 
@@ -132,7 +132,7 @@ describe Tokenex do
 
   it 'can tokenize arbitrary data' do
     tokenizer = tokenex
-    data = "This is my string with 3 numbers less than 10"
+    data = 'This is my string with 3 numbers less than 10'
     token = tokenizer.tokenize(data, Tokenex::TOKEN_SCHEME[:GUID])
     expect(tokenizer.validate_token(token)).to be true
     data_detokenized = tokenizer.detokenize(token)
@@ -142,8 +142,8 @@ describe Tokenex do
 
   it 'can tokenize from an encrypted value' do
     tokenizer = tokenex
-    encrypted_value = "FWOd2HUAI+AYfaC3PKAz4dugByBdd+fEAzFfg/G41UuM8yFK23qoq8oD6CURF5WZpXPXySYbN8XvRM6Pd8dfQCTcSQdGiSBfD+Csv39XbOS/laAIekYsPav/eAnY+tNAV7sGUvtqOnDDr0H9W6Q8Z6nqL0rdezCIDY7DuNcOUZxPsv4EV2djG75c9oXI7rPUa/CtIxp1GOCkPYhkV4pv6sxoYOBAJ2KrMDgzlZS9UWQE5x346Jc8ixEOA0bWItTcXUW8/hITYAlM1mTKqRX/Er7Mag2uBrpNM/t5HNtw/zVNgwc8S4ltvm7ow3IG98K2cDpEi16ly2QuMiL5Iq8ghw=="
-    token = tokenizer.tokenize_from_encrypted_value(encrypted_value, Tokenex::TOKEN_SCHEME[:sixTokenfour]);
+    encrypted_value = 'FWOd2HUAI+AYfaC3PKAz4dugByBdd+fEAzFfg/G41UuM8yFK23qoq8oD6CURF5WZpXPXySYbN8XvRM6Pd8dfQCTcSQdGiSBfD+Csv39XbOS/laAIekYsPav/eAnY+tNAV7sGUvtqOnDDr0H9W6Q8Z6nqL0rdezCIDY7DuNcOUZxPsv4EV2djG75c9oXI7rPUa/CtIxp1GOCkPYhkV4pv6sxoYOBAJ2KrMDgzlZS9UWQE5x346Jc8ixEOA0bWItTcXUW8/hITYAlM1mTKqRX/Er7Mag2uBrpNM/t5HNtw/zVNgwc8S4ltvm7ow3IG98K2cDpEi16ly2QuMiL5Iq8ghw=='
+    token = tokenizer.tokenize_from_encrypted_value(encrypted_value, Tokenex::TOKEN_SCHEME[:sixTokenfour])
     expect(tokenizer.validate_token(token)).to be true
     valid_success_response(tokenizer)
 

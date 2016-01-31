@@ -9,3 +9,5 @@
 /tmp/
 /*.gem
 /*.idea
+
+.rbenv-gemsets

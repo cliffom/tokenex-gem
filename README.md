@@ -58,6 +58,17 @@ token = tokenex.token_from_ccnum(4242424242424242)
 tokenex.delete_token(token)
 ```
 
+
+#### Errors and References
+
+Each action call will return a reference ID that can be used to lookup a call in
+the TokenEx dashboard. Unsuccessful calls will also return an error describing
+the problem. Each can be accessed via:
+```ruby
+tokenex.error
+tokenex.reference_number
+```
+
 ## Development
 
 Before proceeding, make sure the following environment variables are set (they are required for running the specs):

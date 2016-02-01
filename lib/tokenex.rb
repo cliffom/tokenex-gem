@@ -1,8 +1,8 @@
-require "tokenex/version"
-require "tokenex/token_action"
-require "tokenex/token_params"
-require "tokenex/token_scheme"
-require "tokenex/environment"
+require 'tokenex/version'
+require 'tokenex/token_action'
+require 'tokenex/token_params'
+require 'tokenex/token_scheme'
+require 'tokenex/environment'
 
 module Tokenex
 

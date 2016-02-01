@@ -107,10 +107,16 @@ module Tokenex
         end
 
         def is_valid_response(response)
-            @error = response[RESPONSE_PARAMS[:Error]].empty? ? nil : response[RESPONSE_PARAMS[:Error]]
+            @error = response[RESPONSE_PARAMS[:Error]].empty? ? nil : error_from_response(response[RESPONSE_PARAMS[:Error]])
             @reference_number = response[RESPONSE_PARAMS[:ReferenceNumber]].empty? ? nil : response[RESPONSE_PARAMS[:ReferenceNumber]]
             !response[RESPONSE_PARAMS[:Success]].nil? && response[RESPONSE_PARAMS[:Success]] == true
         end
 
+        def error_from_response(response)
+          {
+            code: response.split(" : ").first.to_i,
+            message: response.split(" : ").last
+          }
+        end
     end
 end

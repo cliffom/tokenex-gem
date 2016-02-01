@@ -26,7 +26,10 @@ describe Tokenex do
   end
 
   def valid_error_response(tokenizer)
-    expect(tokenizer.error).not_to be nil
+    expect(tokenizer.error[:code]).not_to be nil
+    expect(tokenizer.error[:code]).to be_an(Integer)
+    expect(tokenizer.error[:message]).not_to be nil
+    expect(tokenizer.error[:message]).to be_a(String)
     expect(tokenizer.reference_number).not_to be nil
   end
 

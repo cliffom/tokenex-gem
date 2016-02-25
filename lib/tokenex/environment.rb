@@ -6,10 +6,11 @@ module Tokenex
     class Environment
         attr_reader :error, :reference_number
 
-        def initialize(api_base_url, tokenex_id, api_key, options={})
+        def initialize(api_base_url, tokenex_id, api_key, proxy_url = '', options={})
             @api_base_url = api_base_url
             @tokenex_id = tokenex_id
             @api_key = api_key
+            @proxy_url = proxy_url
         end
 
         def token_from_ccnum(ccnum, token_scheme = TOKEN_SCHEME[:TOKENfour])
@@ -93,7 +94,8 @@ module Tokenex
 
         def send_request(action, data)
             uri = URI.parse("#{@api_base_url}#{action[:Name]}")
-            http = Net::HTTP.new(uri.host, uri.port)
+            proxy = URI.parse(@proxy_url)
+            http = Net::HTTP.new(uri.host, uri.port, proxy.host, proxy.port, proxy.user, proxy.password)
             http.use_ssl = true
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 

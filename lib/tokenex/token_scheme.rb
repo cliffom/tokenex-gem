@@ -1,7 +1,7 @@
 module Tokenex
   # http://docs.tokenex.com/#appendix-token-schemes
   TOKEN_SCHEME = {
-    sixTokenfour: 1,
+    sixTOKENfour: 1,
     fourTOKENfour: 2,
     TOKENfour: 3,
     GUID: 4,

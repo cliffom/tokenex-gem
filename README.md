@@ -30,6 +30,14 @@ The examples below require you first instantiate a new TokenEx object
 tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key)
 ```
 
+If you need to use proxy, pass in a proxy url as the 4th argument.
+Proxy url example: http://USERNAME:PASSWORD@10.0.0.1:8888
+
+```ruby
+tokenex = Tokenex::Environment.new(api_base_url, token_ex_id, api_key,
+proxy_url)
+```
+
 #### Tokenize a credit card number
 ```ruby
 token = tokenex.token_from_ccnum(4242424242424242)

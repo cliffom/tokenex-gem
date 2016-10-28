@@ -1,4 +1,4 @@
-# Tokenex [![Build Status](https://travis-ci.org/cliffom/tokenex-gem.svg?branch=master)](https://travis-ci.org/cliffom/tokenex-gem) [![Gem Version](https://badge.fury.io/rb/tokenex.svg)](https://badge.fury.io/rb/tokenex)
+# Tokenex [![CircleCI](https://circleci.com/gh/cliffom/tokenex-gem.svg?style=svg)](https://circleci.com/gh/cliffom/tokenex-gem) [![Build Status](https://travis-ci.org/cliffom/tokenex-gem.svg?branch=master)](https://travis-ci.org/cliffom/tokenex-gem) [![Gem Version](https://badge.fury.io/rb/tokenex.svg)](https://badge.fury.io/rb/tokenex)
 
 A convenient Ruby wrapper for the TokenEx API.
 
